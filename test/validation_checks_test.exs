@@ -101,9 +101,13 @@ defmodule ValidationChecksTest do
              a: "has wrong type; expected type: keyword, got: :atom"
            }
 
-    assert check_type(%{a: %{b: 1, c: "2"}}, :a, :keyword) == %{
-             a: "has wrong type; expected type: keyword, got: %{b: 1, c: \"2\"}"
+    assert check_type(%{a: %{b: 1}}, :a, :keyword) == %{
+             a: "has wrong type; expected type: keyword, got: %{b: 1}"
            }
+
+    assert check_type(%{a: %{c: "2"}}, :a, :keyword) == %{
+            a: "has wrong type; expected type: keyword, got: %{c: \"2\"}"
+          }
   end
 
   test "check_type/3: checks uuids" do
@@ -353,8 +357,8 @@ defmodule ValidationChecksTest do
              a: "must be equal to [b: 2]; got: [b: 2, c: 3]"
            }
 
-    assert check_equals(%{a: %{b: 2, c: 3}}, :a, %{b: 2, d: 3}) == %{
-             a: "must be equal to %{b: 2, d: 3}; got: %{b: 2, c: 3}"
+    assert check_equals(%{a: %{b: 3}}, :a, %{b: 2}) == %{
+             a: "must be equal to %{b: 2}; got: %{b: 3}"
            }
   end
 
@@ -379,8 +383,8 @@ defmodule ValidationChecksTest do
              a: "must be equal to [b: 2]; got: [b: 2, c: 3]"
            }
 
-    assert check_exactly(%{a: %{b: 2, c: 3}}, :a, %{b: 2, d: 3}) == %{
-             a: "must be equal to %{b: 2, d: 3}; got: %{b: 2, c: 3}"
+    assert check_exactly(%{a: %{c: 3}}, :a, %{b: 2}) == %{
+             a: "must be equal to %{b: 2}; got: %{c: 3}"
            }
   end
 

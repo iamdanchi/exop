@@ -917,8 +917,11 @@ defmodule OperationTest do
 
   test "process/1 takes only params defined in the contract" do
     result = Def53Operation.run!(a: 1, b: "1", c: 2)
+    expected_keys = Map.keys(result)
 
-    assert [:a, :b] = Map.keys(result)
+    assert Enum.member?(expected_keys, :a)
+    assert Enum.member?(expected_keys, :b)
+    refute Enum.member?(expected_keys, :c)
   end
 
   defmodule Def54Operation do

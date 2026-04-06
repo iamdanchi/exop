@@ -120,7 +120,8 @@ defmodule Exop.Utils do
             end)
 
           if is_map(coerced_inners) do
-            received_params[contract_item_name]
+            received_params
+            |> get_in([Access.key!(contract_item_name)])
             |> Map.merge(coerced_inners)
             |> put_param_value(received_params, contract_item_name)
           else

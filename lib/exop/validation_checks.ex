@@ -362,9 +362,7 @@ defmodule Exop.ValidationChecks do
     actual_length >= check_value ||
       %{
         item_name =>
-          "length must be greater than or equal to #{check_value}; got length: #{
-            inspect(actual_length)
-          }"
+          "length must be greater than or equal to #{check_value}; got length: #{inspect(actual_length)}"
       }
   end
 
@@ -384,9 +382,7 @@ defmodule Exop.ValidationChecks do
     actual_length <= check_value ||
       %{
         item_name =>
-          "length must be less than or equal to #{check_value}; got length: #{
-            inspect(actual_length)
-          }"
+          "length must be less than or equal to #{check_value}; got length: #{inspect(actual_length)}"
       }
   end
 

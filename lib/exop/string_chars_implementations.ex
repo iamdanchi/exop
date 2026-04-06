@@ -5,7 +5,7 @@ defmodule Exop.StringCharsImplementations do
   defimpl String.Chars, for: Range do
     @spec to_string(Range.t()) :: String.t()
     def to_string(term) do
-      first..last = term
+      first..last//_ = term
       "#{first}..#{last}"
     end
   end

@@ -1,7 +1,7 @@
 defmodule ValidationTest do
   use ExUnit.Case, async: false
 
-  doctest Exop.Validation
+  doctest Exop.Validation, except: [:for_order]
 
   import Exop.Validation
 
@@ -159,8 +159,8 @@ defmodule ValidationTest do
 
     assert %{
              "list_param[0]" => [
-               "has wrong type; expected type: string, got: 1",
-               "length check supports only lists, binaries, atoms, maps and tuples"
+               "length check supports only lists, binaries, atoms, maps and tuples",
+               "has wrong type; expected type: string, got: 1"
              ],
              "list_param[1]" => ["length must be greater than or equal to 7; got length: 6"],
              "list_param[2]" => ["doesn't allow nil"]

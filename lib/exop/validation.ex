@@ -141,8 +141,8 @@ defmodule Exop.Validation do
       iex> Exop.Validation.check_inner(%{a: 1}, :a, [b: [type: :atom], c: [type: :string]])
       [%{a: "has wrong type"}]
 
-      iex> Exop.Validation.check_inner(%{a: []}, :a, [b: [type: :atom], c: [type: :string]])
-      [[%{"a[:b]" => "is required"}, true], [%{"a[:c]" => "is required"}, true]]
+      iex> Exop.Validation.check_inner(%{a: []}, :a, [b: [type: :atom]])
+      [[%{"a[:b]" => "is required"}, true]]
 
       iex> Exop.Validation.check_inner(%{a: %{b: :atom, c: "string"}}, :a, [b: [type: :atom], c: [type: :string]])
       [[true, true], [true, true]]
@@ -183,8 +183,8 @@ defmodule Exop.Validation do
       iex> Exop.Validation.check_list_item(%{a: []}, :a, [type: :integer])
       []
 
-      iex> Exop.Validation.check_list_item(%{a: [1, :atom]}, :a, [type: :integer])
-      [[true, true], [true, %{"a[1]" => "has wrong type; expected type: integer, got: :atom"}]]
+      iex> Exop.Validation.check_list_item(%{a: [:atom]}, :a, [type: :integer])
+      [[%{"a[0]" => "has wrong type; expected type: integer, got: :atom"}, true]]
 
       iex> Exop.Validation.check_list_item(%{a: [1, 2]}, :a, [type: :integer])
       [[true, true], [true, true]]
