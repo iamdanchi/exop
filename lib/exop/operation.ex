@@ -60,7 +60,6 @@ defmodule Exop.Operation do
       alias Exop.ValidationChecks
 
       @type interrupt_result :: {:interrupt, any}
-      @type auth_result :: :ok | no_return
 
       #  throws:
       #  {:error, {:auth, :undefined_policy}} |
@@ -81,7 +80,7 @@ defmodule Exop.Operation do
         IO.warn(msg, stacktrace)
       end
 
-      @spec contract :: list(map())
+      @spec contract :: [%{name: atom(), opts: [{atom(), any()}]}]
       def contract do
         @contract
       end
@@ -93,7 +92,6 @@ defmodule Exop.Operation do
               {:ok, any}
               | Validation.validation_error()
               | interrupt_result
-              | auth_result
               | {:error, any}
       def run(received_params \\ %{})
 
@@ -119,7 +117,6 @@ defmodule Exop.Operation do
         end
       end
 
-      @spec invoke_callback(map() | nil, map(), any()) :: any()
       defp invoke_callback(%{module: callback_module, opts: opts}, received_params, result) do
         apply(callback_module, :process, [@module_name, received_params, result, opts])
         result
@@ -127,7 +124,6 @@ defmodule Exop.Operation do
 
       defp invoke_callback(_fallback_module, _received_params, result), do: result
 
-      @spec invoke_fallback(map() | nil, map(), any()) :: any()
       defp invoke_fallback(%{module: fallback_module, opts: opts}, received_params, error) do
         fallback_result = apply(fallback_module, :process, [@module_name, received_params, error])
 
@@ -136,7 +132,6 @@ defmodule Exop.Operation do
 
       defp invoke_fallback(_fallback_module, _received_params, error), do: error
 
-      @spec run!(Keyword.t() | map() | nil) :: any() | RuntimeError
       def run!(received_params \\ %{}) do
         case run(received_params) do
           {:ok, result} ->
